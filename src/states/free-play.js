@@ -1,3 +1,5 @@
+import HUD from '../ui/hud.js';
+
 require('../../assets/images/tileFire.png');
 require('../../assets/images/tileDirt.png');
 require('../../assets/images/tileLife.png');
@@ -24,6 +26,8 @@ export default class FreePlayState extends Phaser.State {
         this.NEIGHBOR_UPRIGHT = 8;
         this.NEIGHBOR_DOWNLEFT = 16;
         this.NEIGHBOR_DOWNRIGHT = 32;
+        this.hud = new HUD(this.game);
+        console.log('got past creating hud');
 
 
     }
@@ -387,9 +391,11 @@ export default class FreePlayState extends Phaser.State {
         this.setAction("hand");
 
         this.generateGrid();
+        this.hud.displayHUD();
 
     }
 
     update() {
+        this.hud.updateHUD(this.resources);
     }
 };
