@@ -48,7 +48,7 @@ export default class LoadingState extends Phaser.State {
 
     update () {
         if (this.areFontsLoaded) {
-            this.state.start('FreePlay');
+            this.state.start('MainMenu');
         }
     }
 

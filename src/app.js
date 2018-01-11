@@ -1,5 +1,7 @@
 // import states
 import BootState from './states/boot';
+import MainMenuState from './states/main-menu';
+import PlayRpgState from './states/play-rpg';
 import FreePlayState from './states/free-play';
 
 require('dotenv');
@@ -23,6 +25,8 @@ Phaser.Device.whenReady(function () {
 
     // states
     game.state.add('Boot', BootState);
+    game.state.add('MainMenu', MainMenuState);
+    game.state.add('PlayRpg', PlayRpgState);
     game.state.add('FreePlay', FreePlayState);
 
     game.state.start('Boot');
