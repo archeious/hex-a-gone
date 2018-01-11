@@ -199,15 +199,24 @@ export default class FreePlayState extends Phaser.State {
             }
             console.log(this.resources);
 
-            this.setTileElement(tiles[0],this.getRandomElement());
-            this.setTileElement(tiles[1],this.getRandomElement());
-            this.setTileElement(tiles[2],this.getRandomElement());
-            this.setTileElement(tiles[3],this.getRandomElement());
-
+            tiles.forEach(i => { this.removeTile(i); });
         }
-
     }
 
+    removeTile (tile) {
+        let shrinkTween = this.game.add.tween(tile.sprite.scale)
+        shrinkTween.to({ x: 0.2, y:0.2 }, 200);
+        let growTween = this.game.add.tween(tile.sprite.scale)
+        growTween.to({ x: 1, y: 1 }, 200);
+
+        shrinkTween.onComplete.add(function() {
+            this.setTileElement(tile,this.getRandomElement());
+            console.log("tried to shrink");
+            growTween.start();
+        }, this);
+
+        shrinkTween.start();
+    }
 
     inputDown () {
         switch (this.state.action) {
