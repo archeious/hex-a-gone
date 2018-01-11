@@ -122,6 +122,7 @@ export default class FreePlayState extends Phaser.State {
     // returns the tile in the given direction, wraps by default
     getNeighbor(tile, direction, no_wrap) {
         let loc = { x: tile.x, y: tile.y };
+        let odd = loc.y % 2;
         switch (direction) {
             case this.NEIGHBOR_LEFT:
                 loc.x = loc.x - 1;
@@ -151,11 +152,12 @@ export default class FreePlayState extends Phaser.State {
 
         // if wrapping (wrapping is on by default)
         if (! no_wrap) {
-            let odd = loc.y % 2;
-            if (loc.x == -1) loc.x = this.width - 1 - odd;
-            if (loc.x == this.width - odd) loc.x = 0;
-            if (loc.y == -1) loc.y = this.height - 1;
-            if (loc.y == this.height) loc.y = 0;
+            if (direction == NEIGHBOR_LEFT || direction == NEIGHBOR_RIGHT) {
+                loc.x = loc.x % (this.width - odd);
+            } else {
+                if (loc.y == -1) loc.y = this.height - 1;
+                if (loc.y == this.height) loc.y = 0;
+            }
         }
 
         return this.grid[loc.y][loc.x];
