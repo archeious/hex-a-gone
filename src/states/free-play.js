@@ -128,6 +128,7 @@ export default class FreePlayState extends Phaser.State {
     getNeighbor(tile, direction, no_wrap) {
         let loc = { x: tile.x, y: tile.y };
         let odd = loc.y % 2;
+        console.log("getNeighbor",tile,direction);
         switch (direction) {
             case this.NEIGHBOR_LEFT:
                 loc.x = loc.x - 1;
@@ -153,6 +154,7 @@ export default class FreePlayState extends Phaser.State {
                 break;
         }
 
+        odd = loc.y % 2;
         // If wrapping is not desired, then MUST be within bounds
         if (no_wrap) {
             if (loc.y < 0 || loc.y >= this.height ||
