@@ -163,7 +163,7 @@ export default class FreePlayState extends Phaser.State {
                 return false;
         } else {
             // if wrapping (wrapping is on by default)
-            if (direction == NEIGHBOR_LEFT || direction == NEIGHBOR_RIGHT) {
+            if (direction == this.NEIGHBOR_LEFT || direction == this.NEIGHBOR_RIGHT) {
                 loc.x = loc.x % (this.width - odd);
             } else {
                 let x_shift = int( this.height / 2 );
