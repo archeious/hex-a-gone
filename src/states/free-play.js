@@ -193,20 +193,43 @@ export default class FreePlayState extends Phaser.State {
                 let secondTile = this.state.currentTile;
                 if (firstTile != secondTile) {
                     if (this.state.isNeighbor(firstTile, secondTile)) {
-                        let tempX = firstTile.x;
-                        let tempY = firstTile.y;
-                        let tempSX = firstTile.sprite.x;
-                        let tempSY = firstTile.sprite.y;
-                        firstTile.x = secondTile.x;
-                        firstTile.y = secondTile.y;
-                        firstTile.sprite.x = secondTile.sprite.x;
-                        firstTile.sprite.y = secondTile.sprite.y;
+                        if (firstTile.isMoving || secondTile.isMoving) {
+                            return false;
+                        }
+                        firstTile.isMoving = true;
+                        secondTile.isMoving = true;
+                        let temp1X = firstTile.x;
+                        let temp1Y = firstTile.y;
+                        let temp1SX = firstTile.sprite.x;
+                        let temp1SY = firstTile.sprite.y;
+                        let temp2X = secondTile.x;
+                        let temp2Y = secondTile.y;
+                        let temp2SX = secondTile.sprite.x;
+                        let temp2SY = secondTile.sprite.y;
 
-                        secondTile.x = tempX;
-                        secondTile.y = tempY;
-                        secondTile.sprite.x = tempSX;
-                        secondTile.sprite.y = tempSY;
+                        let swapTile1 = this.state.game.add.tween(firstTile.sprite);
+                        let swapTile2 = this.state.game.add.tween(secondTile.sprite);
 
+                        swapTile1.to({x: temp2SX, y: temp2SY}, 200);
+                        swapTile1.onComplete.add(function() {
+                            firstTile.x = temp2X;
+                            firstTile.y = temp2Y;
+                            firstTile.sprite.x = temp2SX;
+                            firstTile.sprite.y = temp2SY;
+                            firstTile.isMoving = false;
+                        });
+
+                        swapTile2.to({x: temp1SX, y: temp1SY}, 200);
+                        swapTile2.onComplete.add(function() {
+                            secondTile.x = temp1X;
+                            secondTile.y = temp1Y;
+                            secondTile.sprite.x = temp1SX;
+                            secondTile.sprite.y = temp1SY;
+                            secondTile.isMoving = false;
+                        });
+
+                        swapTile1.start();
+                        swapTile2.start();
                     } else {
                         console.log("IS NOT NEIGHBOR");
                     }
