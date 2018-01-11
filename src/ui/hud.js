@@ -6,8 +6,7 @@ export default class HUD extends Phaser.Group {
 
     drawHUDicon (x, y, resource) {
         var sprite = this.game.add.sprite(x, y, 'tile' + resource);
-        sprite.scale.x = .5;
-        sprite.scale.y = .5;
+        sprite.scale.setTo(.5);
     };
 
     displayHUD () {
