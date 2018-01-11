@@ -198,7 +198,7 @@ export default class FreePlayState extends Phaser.State {
         let actionTiles = this.actionTiles;
         while (actionTiles.length > 0) {
             let tile = actionTiles.shift();
-            tile.sprite.scale.setTo(1.0,1.0);
+            this.unselectTile(tile);
         }
 
     }
@@ -249,18 +249,27 @@ export default class FreePlayState extends Phaser.State {
         shrinkTween.start();
     }
 
+    // Handle the visual selection
+    selectTile (tile) {
+        tile.sprite.scale.setTo(0.9);
+    }
+
+    unselectTile (tile) {
+        tile.sprite.scale.setTo(1);
+    }
+
     inputDown () {
         switch (this.state.action) {
             case 'hand':
             case 'shovel':
                 if (!this.state.actionTiles.includes(this.tile)) {
-                    this.tile.sprite.scale.setTo(0.9, 0.9);
+                    this.state.selectTile(this.tile);
                     this.state.actionTiles.push(this.tile);
                 }
             break;
             case 'sword':
             case 'wand':
-                this.tile.sprite.scale.setTo(0.9, 0.9);
+                this.state.selectTile(this.tile);
                 this.state.actionTiles.push(this.tile);
             break;
 
@@ -271,7 +280,7 @@ export default class FreePlayState extends Phaser.State {
         console.log(this.state.action);
         switch (this.state.action) {
             case 'hand':
-                this.tile.sprite.scale.setTo(1.0, 1.0);
+                this.state.unselectTile(this.tile);
                 let firstTile = this.state.actionTiles.shift();
                 let secondTile = this.state.currentTile;
                 if (firstTile != secondTile) {
@@ -334,7 +343,7 @@ export default class FreePlayState extends Phaser.State {
     }
 
     swordUp (tile) {
-        tile.sprite.scale.setTo(1.0, 1.0);
+        this.unselectTile(tile);
         let firstTile = this.actionTiles.shift();
         let secondTile = this.currentTile;
         if (firstTile != secondTile) {
