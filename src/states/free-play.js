@@ -18,7 +18,7 @@ export default class FreePlayState extends Phaser.State {
         this.gridOffsetY = 50;
         this.action = "";
 
-        this.availTiles = ['Dirt', 'Fire', 'Life', 'Magic'];
+        this.availTiles = ['Dirt', 'Iron', 'Fire', 'Ice', 'Life', 'Wood', 'Magic'];
         this.actionTiles = Array();
 
         this.resources = {};
