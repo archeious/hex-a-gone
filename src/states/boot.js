@@ -18,6 +18,8 @@ export default class LoadingState extends Phaser.State {
         this.areFontsLoaded = true;
 
         this.showLoading();
+        // XXX: The following is only to help with debugging:
+        window.game = this.game;
     }
 
     preload () {
