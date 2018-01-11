@@ -162,7 +162,6 @@ export default class FreePlayState extends Phaser.State {
     getNeighbor(tile, direction, no_wrap) {
         let loc = { x: tile.x, y: tile.y };
         let odd = loc.y % 2;
-        console.log("getNeighbor",tile,direction);
         switch (direction) {
             case this.NEIGHBOR_LEFT:
                 loc.x = loc.x - 1;
@@ -372,25 +371,34 @@ export default class FreePlayState extends Phaser.State {
         let firstTile = this.actionTiles.shift();
         let secondTile = this.currentTile;
         if (firstTile != secondTile) {
-            if (this.isNeighbor(firstTile, secondTile)) {
-                console.log(firstTile);
-                console.log(secondTile);
-                console.log(this.getNeighbor(secondTile, this.NEIGHBOR_RIGHT));
+            let direction = this.isNeighbor(firstTile, secondTile);
+            if (direction) {
+                // follow until we go out of bounds
+                let test = {};
+                let dir = direction;
+                while (test = this.getNeighborNoWrap(tile, dir)) {
+                    tile = this.grid[test.y][test.x];
+                }
 
-                // TODO: this currently works like 'hand' but needs to move a whole line
-                let tempX = firstTile.x;
-                let tempY = firstTile.y;
-                let tempSX = firstTile.sprite.x;
-                let tempSY = firstTile.sprite.y;
-                firstTile.x = secondTile.x;
-                firstTile.y = secondTile.y;
-                firstTile.sprite.x = secondTile.sprite.x;
-                firstTile.sprite.y = secondTile.sprite.y;
+                // include the last one found
+                this.actionTiles.push(tile);
+                this.selectTile(tile);
 
-                secondTile.x = tempX;
-                secondTile.y = tempY;
-                secondTile.sprite.x = tempSX;
-                secondTile.sprite.y = tempSY;
+                // now go the opposite direction and grab everything on that line
+                dir = this.NEIGHBOR_OPPOSITE[direction];
+                while (test = this.getNeighborNoWrap(tile, dir)) {
+                    tile = this.grid[test.y][test.x];
+                    this.actionTiles.unshift(tile);
+                    this.selectTile(tile);
+                }
+
+                let first = this.actionTiles[0];
+                let save = Object.assign({}, first);
+                let saveSpritePos = first.sprite.position;
+                for (let i = 0; i < this.actionTiles.length - 1; i++) {
+                    this.moveTile(this.actionTiles[i], this.actionTiles[i+1]);
+                }
+                this.moveTile(this.actionTiles[this.actionTiles.length - 1], [save.x, save.y], saveSpritePos);
 
             } else {
                 console.log("IS NOT NEIGHBOR");
