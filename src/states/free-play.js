@@ -290,7 +290,7 @@ export default class FreePlayState extends Phaser.State {
                         }
                     // store the first tile's location so I do not
                     // jump to its already slightly moved location
-                        let tempTilePos = (firstTile.x, firstTile.y);
+                        let tempTilePos = [firstTile.x, firstTile.y];
                         let tempSpritePos = firstTile.sprite.position;
 
                         this.state.moveTile(firstTile, secondTile);
@@ -337,12 +337,13 @@ export default class FreePlayState extends Phaser.State {
             newToSY = newSprite.y;
         }
 
+        tile.x = newToX;
+        tile.y = newToY;
+
         let moveTile = this.state.game.add.tween(tile.sprite);
 
         moveTile.to({x: newToSX, y: newToSY}, 200);
         moveTile.onComplete.add(function() {
-            tile.x = newToX;
-            tile.y = newToY;
             tile.isMoving = false;
         });
 
