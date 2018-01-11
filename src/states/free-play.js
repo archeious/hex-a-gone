@@ -4,7 +4,7 @@ require('../../assets/images/tileLife.png');
 require('../../assets/images/tileMagic.png');
 require('../../assets/images/actionSword.png');
 
-export default class MainMenuState extends Phaser.State {
+export default class FreePlayState extends Phaser.State {
 
     init () {
         this.width = 10;
@@ -60,10 +60,10 @@ export default class MainMenuState extends Phaser.State {
                 }
 
                 let tileType = this.getRandomElement();
-                               
+
                 var tileSprite = this.game.add.sprite(
-                    x * 64 + xOffset, 
-                    y * 46 + yOffset, 
+                    x * 64 + xOffset,
+                    y * 46 + yOffset,
                     'tile' + tileType,
                 );
 
@@ -99,7 +99,7 @@ export default class MainMenuState extends Phaser.State {
             if (tile1.y == tile2.y+1 && tile1.x == tile2.x)   { return this.NEIGHBOR_UPLEFT; } // upper left
             if (tile1.y == tile2.y+1 && tile1.x == tile2.x-1) { return this.NEIGHBOR_UPRIGHT; } // upper right
             if (tile1.y == tile2.y-1 && tile1.x == tile2.x)   { return this.NEIGHBOR_DOWNLEFT; } // lower left
-            if (tile1.y == tile2.y-1 && tile1.x == tile2.x-1) { return this.NEIGHBOR_DOWNRIGHT; } // lower right           
+            if (tile1.y == tile2.y-1 && tile1.x == tile2.x-1) { return this.NEIGHBOR_DOWNRIGHT; } // lower right
         } else {  //tile1 is on an even row
             if (tile1.y == tile2.y+1 && tile1.x == tile2.x+1) { return this.NEIGHBOR_UPLEFT; } // upper left
             if (tile1.y == tile2.y+1 && tile1.x == tile2.x)   { return this.NEIGHBOR_UPRIGHT; } // upper right
@@ -126,9 +126,9 @@ export default class MainMenuState extends Phaser.State {
         // all tiles must be the same element
         if (tiles[0].element != tiles[1].element  ||
             tiles[0].element != tiles[2].element  ||
-            tiles[0].element != tiles[3].element)  { 
-            
-            console.log("cannot shovel dissimilar elements"); 
+            tiles[0].element != tiles[3].element)  {
+
+            console.log("cannot shovel dissimilar elements");
             return false;
         }
         let element = tiles[0].element;
@@ -137,38 +137,38 @@ export default class MainMenuState extends Phaser.State {
         if (
             (this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_UPRIGHT &&
             this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_DOWNRIGHT) ||    
+            this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_DOWNRIGHT) ||
 
             (this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_UPRIGHT &&
             this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_DOWNRIGHT) ||    
+            this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_DOWNRIGHT) ||
 
             (this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_UPRIGHT &&
             this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_DOWNRIGHT) ||    
+            this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_DOWNRIGHT) ||
 
             (this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_UPRIGHT &&
             this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_DOWNRIGHT) ||    
+            this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_DOWNRIGHT) ||
 
             (this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_UPRIGHT &&
             this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_DOWNRIGHT) ||    
+            this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_DOWNRIGHT) ||
 
             (this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_UPRIGHT &&
             this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_DOWNRIGHT)     
+            this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_DOWNRIGHT)
         ) {
             console.log("adding a " + element + " to resources." );
-            if (typeof this.resources[element] == 'undefined') { 
+            if (typeof this.resources[element] == 'undefined') {
                 console.log("new element");
-                this.resources[element] = 1; 
+                this.resources[element] = 1;
             } else {
                 console.log("old element");
                 this.resources[element] += 1;
             }
             console.log(this.resources);
-        
+
             this.setTileElement(tiles[0],this.getRandomElement());
             this.setTileElement(tiles[1],this.getRandomElement());
             this.setTileElement(tiles[2],this.getRandomElement());
@@ -185,11 +185,11 @@ export default class MainMenuState extends Phaser.State {
                 this.tile.sprite.scale.setTo(0.9, 0.9);
                 this.state.actionTiles.push(this.tile);
             break;
-            
-        }        
+
+        }
     }
 
-    inputUp (gameObj, ptr, isOver) {   
+    inputUp (gameObj, ptr, isOver) {
         console.log(this.state.action);
         switch (this.state.action) {
             case 'hand':
@@ -211,7 +211,7 @@ export default class MainMenuState extends Phaser.State {
                         secondTile.y = tempY;
                         secondTile.sprite.x = tempSX;
                         secondTile.sprite.y = tempSY;
-                        
+
                     } else {
                         console.log("IS NOT NEIGHBOR");
                     }
@@ -227,7 +227,7 @@ export default class MainMenuState extends Phaser.State {
                     }
                     break;
 
-        }    
+        }
     }
 
     inputOut() {
@@ -271,15 +271,15 @@ export default class MainMenuState extends Phaser.State {
         this.handBtn = this.game.add.text(675, 150, "Hands", { font: "35px Arial", fill: "#ff0044", align: "center" });
         this.handBtn.events.onInputDown.add(this.actionDown, {state:this, newAction:'hand'});
         this.handBtn.inputEnabled = true;
-        
+
         this.shovelBtn = this.game.add.text(675, 200, "Shovel", { font: "35px Arial", fill: "#ff0044", align: "center" });
         this.shovelBtn.events.onInputDown.add(this.actionDown, {state:this, newAction:'shovel'});
         this.shovelBtn.inputEnabled = true;
-        
+
         this.setAction("hand");
-        
+
         this.generateGrid();
-        
+
     }
 
     update() {

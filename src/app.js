@@ -1,6 +1,6 @@
 // import states
 import BootState from './states/boot';
-import MainMenuState from './states/main-menu';
+import FreePlayState from './states/free-play';
 
 require('dotenv');
 if (!process.env.ELECTRON) {
@@ -23,7 +23,7 @@ Phaser.Device.whenReady(function () {
 
     // states
     game.state.add('Boot', BootState);
-    game.state.add('MainMenu', MainMenuState);
+    game.state.add('FreePlay', FreePlayState);
 
     game.state.start('Boot');
 });
