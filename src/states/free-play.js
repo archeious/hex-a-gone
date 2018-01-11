@@ -229,7 +229,6 @@ export default class FreePlayState extends Phaser.State {
 
         shrinkTween.onComplete.add(function() {
             this.setTileElement(tile,this.getRandomElement());
-            console.log("tried to shrink");
             growTween.start();
         }, this);
 
