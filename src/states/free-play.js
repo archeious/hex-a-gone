@@ -96,18 +96,12 @@ export default class FreePlayState extends Phaser.State {
         if (tile1.y == tile2.y && tile1.x == tile2.x-1) { return this.NEIGHBOR_RIGHT; }
         if (tile1.y == tile2.y && tile1.x == tile2.x+1) { return this.NEIGHBOR_LEFT; }
 
-        if (tile1.y % 2 == 1) { //tile1 is on an odd row
-            if (tile1.y == tile2.y+1 && tile1.x == tile2.x)   { return this.NEIGHBOR_UPLEFT; } // upper left
-            if (tile1.y == tile2.y+1 && tile1.x == tile2.x-1) { return this.NEIGHBOR_UPRIGHT; } // upper right
-            if (tile1.y == tile2.y-1 && tile1.x == tile2.x)   { return this.NEIGHBOR_DOWNLEFT; } // lower left
-            if (tile1.y == tile2.y-1 && tile1.x == tile2.x-1) { return this.NEIGHBOR_DOWNRIGHT; } // lower right
-        } else {  //tile1 is on an even row
-            if (tile1.y == tile2.y+1 && tile1.x == tile2.x+1) { return this.NEIGHBOR_UPLEFT; } // upper left
-            if (tile1.y == tile2.y+1 && tile1.x == tile2.x)   { return this.NEIGHBOR_UPRIGHT; } // upper right
-            if (tile1.y == tile2.y-1 && tile1.x == tile2.x+1) { return this.NEIGHBOR_DOWNLEFT; } // lower left
-            if (tile1.y == tile2.y-1 && tile1.x == tile2.x)   { return this.NEIGHBOR_DOWNRIGHT; } // lower right
-        }
-        //anyother tile is not a neighbor
+        let odd = tile1.y % 2;
+        if (tile1.y == tile2.y+1 && tile1.x == tile2.x+1-odd) { return this.NEIGHBOR_UPLEFT; } // upper left
+        if (tile1.y == tile2.y+1 && tile1.x == tile2.x  -odd) { return this.NEIGHBOR_UPRIGHT; } // upper right
+        if (tile1.y == tile2.y-1 && tile1.x == tile2.x+1-odd) { return this.NEIGHBOR_DOWNLEFT; } // lower left
+        if (tile1.y == tile2.y-1 && tile1.x == tile2.x  -odd) { return this.NEIGHBOR_DOWNRIGHT; } // lower right
+        //any other tile is not a neighbor
         return false;
     }
 
