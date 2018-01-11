@@ -105,21 +105,56 @@ export default class FreePlayState extends Phaser.State {
         return false;
     }
 
-    getNeighbor(tile, action) {
-        switch (this.state.action) {
+    // helper function for calling getNeighbor with wrapping
+    getNeighborWrap(tile, direction) {
+        return this.getNeighbor(tile, direction, 0);
+    }
+
+    // helper function for calling getNeighbor without wrapping
+    getNeighborNoWrap(tile, direction) {
+        return this.getNeighbor(tile, direction, 1);
+    }
+
+    // returns the tile in the given direction, wraps by default
+    getNeighbor(tile, direction, no_wrap) {
+        let loc = { x: tile.x, y: tile.y };
+        switch (direction) {
             case this.NEIGHBOR_LEFT:
+                loc.x = loc.x - 1;
                 break;
             case this.NEIGHBOR_RIGHT:
+                loc.x = loc.x + 1;
                 break;
             case this.NEIGHBOR_UPLEFT:
+                loc.x = loc.x - 1;
+                loc.y = loc.y - 1;
                 break;
             case this.NEIGHBOR_UPRIGHT:
+                loc.x = loc.x + 1;
+                loc.y = loc.y - 1;
                 break;
             case this.NEIGHBOR_DOWNLEFT:
+                loc.x = loc.x - 1;
+                loc.y = loc.y + 1;
                 break;
             case this.NEIGHBOR_DOWNRIGHT:
+                loc.x = loc.x + 1;
+                loc.y = loc.y + 1;
                 break;
         }
+
+        // TODO: wrapping is broken for diagonals, only works for left/right
+
+        // if wrapping (wrapping is on by default)
+        if (! no_wrap) {
+            let odd = loc.y % 2;
+            if (loc.x == -1) loc.x = this.width - 1 - odd;
+            if (loc.x == this.width - odd) loc.x = 0;
+            if (loc.y == -1) loc.y = this.height - 1;
+            if (loc.y == this.height) loc.y = 0;
+        }
+
+        return this.grid[loc.y][loc.x];
     }
 
     emptyActionTiles() {  // helper function to verify action tiles has been cleared
@@ -257,6 +292,11 @@ export default class FreePlayState extends Phaser.State {
         let secondTile = this.currentTile;
         if (firstTile != secondTile) {
             if (this.isNeighbor(firstTile, secondTile)) {
+                console.log(firstTile);
+                console.log(secondTile);
+                console.log(this.getNeighbor(secondTile, this.NEIGHBOR_RIGHT));
+
+                // TODO: this currently works like 'hand' but needs to move a whole line
                 let tempX = firstTile.x;
                 let tempY = firstTile.y;
                 let tempSX = firstTile.sprite.x;
