@@ -105,6 +105,23 @@ export default class FreePlayState extends Phaser.State {
         return false;
     }
 
+    getNeighbor(tile, action) {
+        switch (this.state.action) {
+            case this.NEIGHBOR_LEFT:
+                break;
+            case this.NEIGHBOR_RIGHT:
+                break;
+            case this.NEIGHBOR_UPLEFT:
+                break;
+            case this.NEIGHBOR_UPRIGHT:
+                break;
+            case this.NEIGHBOR_DOWNLEFT:
+                break;
+            case this.NEIGHBOR_DOWNRIGHT:
+                break;
+        }
+    }
+
     emptyActionTiles() {  // helper function to verify action tiles has been cleared
         let actionTiles = this.actionTiles;
         while (actionTiles.length > 0) {
@@ -150,6 +167,7 @@ export default class FreePlayState extends Phaser.State {
 
     }
 
+
     inputDown () {
         switch (this.state.action) {
             case 'hand':
@@ -158,6 +176,9 @@ export default class FreePlayState extends Phaser.State {
                     this.tile.sprite.scale.setTo(0.9, 0.9);
                     this.state.actionTiles.push(this.tile);
                 }
+            case 'sword':
+                this.tile.sprite.scale.setTo(0.9, 0.9);
+                this.state.actionTiles.push(this.tile);
             break;
 
         }
@@ -193,14 +214,43 @@ export default class FreePlayState extends Phaser.State {
                 }
                 break;
             case 'shovel':
-                let actionTiles = this.state.actionTiles;
-                console.log("action tiles is " + actionTiles.length + " tiles is size");
-                if (actionTiles.length == 4) {
+                let shovelTiles = this.state.actionTiles;
+                console.log("action tiles is " + shovelTiles.length + " tiles is size");
+                if (shovelTiles.length == 4) {
                     this.state.validateShovel();
                     this.state.emptyActionTiles();
                 }
                 break;
+            case 'sword':
+                this.state.swordUp(this.tile);
+                break;
+        }
+    }
 
+    swordUp (tile) {
+        tile.sprite.scale.setTo(1.0, 1.0);
+        let firstTile = this.actionTiles.shift();
+        let secondTile = this.currentTile;
+        if (firstTile != secondTile) {
+            if (this.isNeighbor(firstTile, secondTile)) {
+                let tempX = firstTile.x;
+                let tempY = firstTile.y;
+                let tempSX = firstTile.sprite.x;
+                let tempSY = firstTile.sprite.y;
+                firstTile.x = secondTile.x;
+                firstTile.y = secondTile.y;
+                firstTile.sprite.x = secondTile.sprite.x;
+                firstTile.sprite.y = secondTile.sprite.y;
+
+                secondTile.x = tempX;
+                secondTile.y = tempY;
+                secondTile.sprite.x = tempSX;
+                secondTile.sprite.y = tempSY;
+
+            } else {
+                console.log("IS NOT NEIGHBOR");
+            }
+            this.emptyActionTiles();
         }
     }
 
@@ -220,6 +270,8 @@ export default class FreePlayState extends Phaser.State {
             case 'shovel':
                 this.shovelBtn.addColor('#ff0044',0);
                 break;
+            case 'sword':
+                this.swordBtn.addColor('#ff0044',0);
         }
 
         switch (action) {
@@ -228,6 +280,9 @@ export default class FreePlayState extends Phaser.State {
                 break;
             case 'shovel':
                 this.shovelBtn.addColor('#ffff44',0);
+                break;
+            case 'sword':
+                this.swordBtn.addColor('#ffff44',0);
                 break;
         }
 
@@ -248,6 +303,10 @@ export default class FreePlayState extends Phaser.State {
         this.shovelBtn = this.game.add.text(675, 200, "Shovel", { font: "35px Arial", fill: "#ff0044", align: "center" });
         this.shovelBtn.events.onInputDown.add(this.actionDown, {state:this, newAction:'shovel'});
         this.shovelBtn.inputEnabled = true;
+
+        this.swordBtn = this.game.add.text(675, 250, "Sword", { font: "35px Arial", fill: "#ff0044", align: "center" });
+        this.swordBtn.events.onInputDown.add(this.actionDown, {state:this, newAction:'sword'});
+        this.swordBtn.inputEnabled = true;
 
         this.setAction("hand");
 
