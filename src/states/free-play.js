@@ -312,6 +312,9 @@ export default class FreePlayState extends Phaser.State {
             case 'sword':
                 this.state.swordUp(this.tile);
                 break;
+            case 'wand':
+                this.state.wandUp(this.state.actionTiles);
+                break;
         }
     }
 
@@ -376,6 +379,38 @@ export default class FreePlayState extends Phaser.State {
             }
             this.emptyActionTiles();
         }
+    }
+
+    wandUp (tiles) {
+        let tile = tiles[0]; // mouse Down Tile
+        tile.sprite.scale.setTo(1.0, 1.0);
+        let curTile = this.currentTile; // mouse Up Tile
+        if (tile != curTile) {
+            console.log("Wand up tile not same as wand down tile");
+        }
+        else {
+            let left, upleft, upright, right, downright, downleft;
+            if ((left = this.getNeighborNoWrap(curTile, this.NEIGHBOR_LEFT))
+                && (upleft  = this.getNeighborNoWrap(curTile, this.NEIGHBOR_UPLEFT))
+                && (upright = this.getNeighborNoWrap(curTile, this.NEIGHBOR_UPRIGHT))
+                && (right   = this.getNeighborNoWrap(curTile, this.NEIGHBOR_RIGHT))
+                && (downright = this.getNeighborNoWrap(curTile, this.NEIGHBOR_DOWNRIGHT))
+                && (downleft  = this.getNeighborNoWrap(curTile, this.NEIGHBOR_DOWNLEFT))) {
+                console.log("Wand tile has a full set of neighbors");
+                let leftsave = Object.assign({}, left);
+                let leftsaveSpritePos = left.sprite.position;
+                this.moveTile(left, upleft);
+                this.moveTile(upleft, upright);
+                this.moveTile(upright, right);
+                this.moveTile(right, downright);
+                this.moveTile(downright, downleft);
+                this.moveTile(downleft, [leftsave.x, leftsave.y], leftsaveSpritePos);
+            }
+            else {
+                console.log("Wand tile does not have full set of neighbors");
+            }
+        }
+        this.emptyActionTiles();
     }
 
     inputOut() {
