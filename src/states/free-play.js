@@ -77,6 +77,7 @@ export default class FreePlayState extends Phaser.State {
 
                 tileSprite.anchor.set(0.5);
                 tileSprite.inputEnabled = true;
+                tileSprite.input.pixelPerfectClick = true;
                 tileSprite.input.pixelPerfectOver = true;
                 tileSprite.events.onInputDown.add(this.inputDown, {state: this, tile: tile});
                 tileSprite.events.onInputUp.add(this.inputUp, {state: this, tile: tile});
