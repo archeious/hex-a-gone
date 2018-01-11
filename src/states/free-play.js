@@ -34,6 +34,13 @@ export default class FreePlayState extends Phaser.State {
         this.NEIGHBOR_UPRIGHT = 'upright';
         this.NEIGHBOR_DOWNLEFT = 'downleft';
         this.NEIGHBOR_DOWNRIGHT = 'downright';
+        this.NEIGHBOR_OPPOSITE = {};
+        this.NEIGHBOR_OPPOSITE[this.NEIGHBOR_LEFT] = this.NEIGHBOR_RIGHT;
+        this.NEIGHBOR_OPPOSITE[this.NEIGHBOR_RIGHT] = this.NEIGHBOR_LEFT;
+        this.NEIGHBOR_OPPOSITE[this.NEIGHBOR_UPLEFT] = this.NEIGHBOR_DOWNRIGHT;
+        this.NEIGHBOR_OPPOSITE[this.NEIGHBOR_DOWNRIGHT] = this.NEIGHBOR_UPLEFT;
+        this.NEIGHBOR_OPPOSITE[this.NEIGHBOR_UPRIGHT] = this.NEIGHBOR_DOWNLEFT;
+        this.NEIGHBOR_OPPOSITE[this.NEIGHBOR_DOWNLEFT] = this.NEIGHBOR_UPRIGHT;
         this.hud = new HUD(this.game);
         this.allLevels = new AllLevels();
 
@@ -141,12 +148,12 @@ export default class FreePlayState extends Phaser.State {
 
     // helper function for calling getNeighbor with wrapping
     getNeighborWrap(tile, direction) {
-        return this.getNeighbor(tile, direction, 0);
+        return this.getNeighbor(tile, direction, false);
     }
 
     // helper function for calling getNeighbor without wrapping
     getNeighborNoWrap(tile, direction) {
-        return this.getNeighbor(tile, direction, 1);
+        return this.getNeighbor(tile, direction, true);
     }
 
     // returns the tile in the given direction, wraps by default
@@ -185,28 +192,16 @@ export default class FreePlayState extends Phaser.State {
             if (loc.y < 0 || loc.y >= this.height ||
                 loc.x < 0 || loc.x >= this.width - odd)
                 return false;
-        } else {
-            // if wrapping (wrapping is on by default)
-            if (direction == this.NEIGHBOR_LEFT || direction == this.NEIGHBOR_RIGHT) {
-                loc.x = loc.x % (this.width - odd);
-            } else {
-                let x_shift = Math.floor( this.height / 2 );
-                if (direction == this.NEIGHBOR_DOWNRIGHT ||
-                    direction == this.NEIGHBOR_UPRIGHT) {
-                    x_shift = -x_shift;
-                }
-                if (loc.y < 0 || loc.y >= this.height) {
-                    loc.x += x_shift;
-                    loc.y = loc.y % this.height;
-                }
-                if (loc.x < 0) {
-                    loc.y -= loc.x * 2;
-                    loc.x = 0;
-                }
-                if (loc.x >= this.width - odd) {
-                    loc.y -= (this.width - odd - loc.x) * 2;
-                    loc.x = this.width - odd;
-                }
+        } else if (loc.y < 0 || loc.y >= this.height ||
+                   loc.x < 0 || loc.x >= this.width - odd) {
+            // if wrapping and went out of bounds
+            // Keep going in the OPPOSITE direction until just before out of bounds
+            loc = { x: tile.x, y: tile.y };
+            let dir = this.NEIGHBOR_OPPOSITE[direction];
+            let test = {};
+            while (test = this.getNeighborNoWrap(tile, dir)) {
+                loc = { x: test.x, y: test.y };
+                tile = this.grid[loc.y][loc.x];
             }
         }
 
