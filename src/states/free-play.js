@@ -4,6 +4,9 @@ require('../../assets/images/tileFire.png');
 require('../../assets/images/tileDirt.png');
 require('../../assets/images/tileLife.png');
 require('../../assets/images/tileMagic.png');
+require('../../assets/images/tileIce.png');
+require('../../assets/images/tileWood.png');
+require('../../assets/images/tileIron.png');
 require('../../assets/images/actionSword.png');
 
 export default class FreePlayState extends Phaser.State {
@@ -37,6 +40,9 @@ export default class FreePlayState extends Phaser.State {
         this.game.load.image('tileFire', '/assets/tileFire.png');
         this.game.load.image('tileLife', '/assets/tileLife.png');
         this.game.load.image('tileMagic', '/assets/tileMagic.png');
+        this.game.load.image('tileIce', '/assets/tileIce.png');
+        this.game.load.image('tileWood', '/assets/tileWood.png');
+        this.game.load.image('tileIron', '/assets/tileIron.png');
 
         this.game.load.image('actionSword', '/assets/actionSword.png');
     }
@@ -131,32 +137,44 @@ export default class FreePlayState extends Phaser.State {
                 loc.x = loc.x + 1;
                 break;
             case this.NEIGHBOR_UPLEFT:
-                loc.x = loc.x - 1;
+                loc.x = loc.x - 1 + odd;
                 loc.y = loc.y - 1;
                 break;
             case this.NEIGHBOR_UPRIGHT:
-                loc.x = loc.x + 1;
+                loc.x = loc.x + odd;
                 loc.y = loc.y - 1;
                 break;
             case this.NEIGHBOR_DOWNLEFT:
-                loc.x = loc.x - 1;
+                loc.x = loc.x - 1 + odd;
                 loc.y = loc.y + 1;
                 break;
             case this.NEIGHBOR_DOWNRIGHT:
-                loc.x = loc.x + 1;
+                loc.x = loc.x + odd;
                 loc.y = loc.y + 1;
                 break;
         }
 
         // TODO: wrapping is broken for diagonals, only works for left/right
 
-        // if wrapping (wrapping is on by default)
-        if (! no_wrap) {
+        // If wrapping is not desired, then MUST be within bounds
+        if (no_wrap) {
+            if (loc.y < 0 || loc.y >= this.height ||
+                loc.x < 0 || loc.x >= this.width - odd)
+                return false;
+        } else {
+            // if wrapping (wrapping is on by default)
             if (direction == NEIGHBOR_LEFT || direction == NEIGHBOR_RIGHT) {
                 loc.x = loc.x % (this.width - odd);
             } else {
-                if (loc.y == -1) loc.y = this.height - 1;
-                if (loc.y == this.height) loc.y = 0;
+                let x_shift = int( this.height / 2 );
+                if (direction == NEIGHBOR_DOWNRIGHT ||
+                    direction == NEIGHBOR_UPRIGHT) {
+                    x_shift = -x_shift;
+                }
+                if (loc.y < 0 || loc.y >= this.height) {
+                    loc.x += x_shift;
+                    loc.y = loc.y % this.height;
+                }
             }
         }
 
