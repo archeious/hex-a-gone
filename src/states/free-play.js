@@ -213,6 +213,7 @@ export default class FreePlayState extends Phaser.State {
                 }
             break;
             case 'sword':
+            case 'wand':
                 this.tile.sprite.scale.setTo(0.9, 0.9);
                 this.state.actionTiles.push(this.tile);
             break;
@@ -336,6 +337,10 @@ export default class FreePlayState extends Phaser.State {
                 break;
             case 'sword':
                 this.swordBtn.addColor('#ff0044',0);
+                break;
+            case 'wand':
+                this.wandBtn.addColor('#ff0044',0);
+                break;
         }
 
         switch (action) {
@@ -347,6 +352,9 @@ export default class FreePlayState extends Phaser.State {
                 break;
             case 'sword':
                 this.swordBtn.addColor('#ffff44',0);
+                break;
+            case 'wand':
+                this.wandBtn.addColor('#ffff44',0);
                 break;
         }
 
@@ -371,6 +379,10 @@ export default class FreePlayState extends Phaser.State {
         this.swordBtn = this.game.add.text(675, 250, "Sword", { font: "35px Arial", fill: "#ff0044", align: "center" });
         this.swordBtn.events.onInputDown.add(this.actionDown, {state:this, newAction:'sword'});
         this.swordBtn.inputEnabled = true;
+
+        this.wandBtn = this.game.add.text(675, 300, "Wand", { font: "35px Arial", fill: "#ff0044", align: "center" });
+        this.wandBtn.events.onInputDown.add(this.actionDown, {state:this, newAction:'wand'});
+        this.wandBtn.inputEnabled = true;
 
         this.setAction("hand");
 
