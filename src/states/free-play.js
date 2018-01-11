@@ -30,7 +30,6 @@ export default class FreePlayState extends Phaser.State {
         this.NEIGHBOR_DOWNLEFT = 16;
         this.NEIGHBOR_DOWNRIGHT = 32;
         this.hud = new HUD(this.game);
-        console.log('got past creating hud');
 
 
     }
