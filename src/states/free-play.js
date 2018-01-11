@@ -288,40 +288,13 @@ export default class FreePlayState extends Phaser.State {
                         if (firstTile.isMoving || secondTile.isMoving) {
                             return false;
                         }
-                        firstTile.isMoving = true;
-                        secondTile.isMoving = true;
-                        let temp1X = firstTile.x;
-                        let temp1Y = firstTile.y;
-                        let temp1SX = firstTile.sprite.x;
-                        let temp1SY = firstTile.sprite.y;
-                        let temp2X = secondTile.x;
-                        let temp2Y = secondTile.y;
-                        let temp2SX = secondTile.sprite.x;
-                        let temp2SY = secondTile.sprite.y;
+                    // store the first tile's location so I do not
+                    // jump to its already slightly moved location
+                        let tempTilePos = (firstTile.x, firstTile.y);
+                        let tempSpritePos = firstTile.sprite.position;
 
-                        let swapTile1 = this.state.game.add.tween(firstTile.sprite);
-                        let swapTile2 = this.state.game.add.tween(secondTile.sprite);
-
-                        swapTile1.to({x: temp2SX, y: temp2SY}, 200);
-                        swapTile1.onComplete.add(function() {
-                            firstTile.x = temp2X;
-                            firstTile.y = temp2Y;
-                            firstTile.sprite.x = temp2SX;
-                            firstTile.sprite.y = temp2SY;
-                            firstTile.isMoving = false;
-                        });
-
-                        swapTile2.to({x: temp1SX, y: temp1SY}, 200);
-                        swapTile2.onComplete.add(function() {
-                            secondTile.x = temp1X;
-                            secondTile.y = temp1Y;
-                            secondTile.sprite.x = temp1SX;
-                            secondTile.sprite.y = temp1SY;
-                            secondTile.isMoving = false;
-                        });
-
-                        swapTile1.start();
-                        swapTile2.start();
+                        this.state.moveTile(firstTile, secondTile);
+                        this.state.moveTile(secondTile, tempTilePos, tempSpritePos);
                     } else {
                         console.log("IS NOT NEIGHBOR");
                     }
@@ -340,6 +313,37 @@ export default class FreePlayState extends Phaser.State {
                 this.state.swordUp(this.tile);
                 break;
         }
+    }
+
+    // pass in the tile to move and EITHER the tile object to move to
+    // OR an  array containing the x and y of the tile
+    //    and the position object of the second tile's sprite
+    moveTile (tile, newPos, newSprite = 0) {
+        tile.isMoving = true;
+        let newToX, newToY, newToSX, newToSY;
+        if (newPos.sprite) {
+            newToX = newPos.x;
+            newToY = newPos.y;
+            newToSX = newPos.sprite.x;
+            newToSY = newPos.sprite.y;
+        }
+        else {
+            newToX = newPos[0];
+            newToY = newPos[1];
+            newToSX = newSprite.x;
+            newToSY = newSprite.y;
+        }
+
+        let moveTile = this.state.game.add.tween(tile.sprite);
+
+        moveTile.to({x: newToSX, y: newToSY}, 200);
+        moveTile.onComplete.add(function() {
+            tile.x = newToX;
+            tile.y = newToY;
+            tile.isMoving = false;
+        });
+
+        moveTile.start();
     }
 
     swordUp (tile) {
