@@ -131,19 +131,19 @@ export default class FreePlayState extends Phaser.State {
                 loc.x = loc.x + 1;
                 break;
             case this.NEIGHBOR_UPLEFT:
-                loc.x = loc.x - 1;
+                loc.x = loc.x - 1 + odd;
                 loc.y = loc.y - 1;
                 break;
             case this.NEIGHBOR_UPRIGHT:
-                loc.x = loc.x + 1;
+                loc.x = loc.x + odd;
                 loc.y = loc.y - 1;
                 break;
             case this.NEIGHBOR_DOWNLEFT:
-                loc.x = loc.x - 1;
+                loc.x = loc.x - 1 + odd;
                 loc.y = loc.y + 1;
                 break;
             case this.NEIGHBOR_DOWNRIGHT:
-                loc.x = loc.x + 1;
+                loc.x = loc.x + odd;
                 loc.y = loc.y + 1;
                 break;
         }
