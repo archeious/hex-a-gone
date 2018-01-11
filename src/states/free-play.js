@@ -153,8 +153,6 @@ export default class FreePlayState extends Phaser.State {
                 break;
         }
 
-        // TODO: wrapping is broken for diagonals, only works for left/right
-
         // If wrapping is not desired, then MUST be within bounds
         if (no_wrap) {
             if (loc.y < 0 || loc.y >= this.height ||
