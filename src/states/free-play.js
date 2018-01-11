@@ -4,6 +4,9 @@ require('../../assets/images/tileFire.png');
 require('../../assets/images/tileDirt.png');
 require('../../assets/images/tileLife.png');
 require('../../assets/images/tileMagic.png');
+require('../../assets/images/tileIce.png');
+require('../../assets/images/tileWood.png');
+require('../../assets/images/tileIron.png');
 require('../../assets/images/actionSword.png');
 
 export default class FreePlayState extends Phaser.State {
@@ -37,6 +40,9 @@ export default class FreePlayState extends Phaser.State {
         this.game.load.image('tileFire', '/assets/tileFire.png');
         this.game.load.image('tileLife', '/assets/tileLife.png');
         this.game.load.image('tileMagic', '/assets/tileMagic.png');
+        this.game.load.image('tileIce', '/assets/tileIce.png');
+        this.game.load.image('tileWood', '/assets/tileWood.png');
+        this.game.load.image('tileIron', '/assets/tileIron.png');
 
         this.game.load.image('actionSword', '/assets/actionSword.png');
     }
