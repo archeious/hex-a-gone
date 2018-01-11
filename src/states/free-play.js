@@ -219,14 +219,14 @@ export default class FreePlayState extends Phaser.State {
                     this.state.emptyActionTiles();
                 }
                 break;
-                case 'shovel':
-                    let actionTiles = this.state.actionTiles;
-                    console.log("action tiles is " + actionTiles.length + " tiles is size");
-                    if (actionTiles.length == 4) {
-                        this.state.validateShovel();
-                        this.state.emptyActionTiles();
-                    }
-                    break;
+            case 'shovel':
+                let actionTiles = this.state.actionTiles;
+                console.log("action tiles is " + actionTiles.length + " tiles is size");
+                if (actionTiles.length == 4) {
+                    this.state.validateShovel();
+                    this.state.emptyActionTiles();
+                }
+                break;
 
         }
     }
@@ -259,7 +259,7 @@ export default class FreePlayState extends Phaser.State {
                 break;
         }
 
-
+        this.state.emptyActionTiles();
         this.action = action;
     }
 
