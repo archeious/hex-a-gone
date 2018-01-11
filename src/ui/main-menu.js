@@ -38,7 +38,11 @@ export default class MainMenu extends Phaser.Group {
         let item = new Phaser.Text(this.game, 0, 0, text, this.style.defaultItemStyle);
         item.changeState = changeState;
         item.inputEnabled = true;
-        item.events.onInputUp.add((obj, pointer) => {
+        item.groupIndex = this.children.length;
+        item.events.onInputOver.add((obj, pointer) => { // change selection with mouseover
+            this.selectedItem = obj.groupIndex;
+        });
+        item.events.onInputUp.add((obj, pointer) => { // change state when we click on menu ite
             this.changeState(obj);
         });
         this.add(item);
