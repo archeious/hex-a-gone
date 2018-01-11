@@ -236,7 +236,6 @@ export default class FreePlayState extends Phaser.State {
 
     inputOver() {
         this.state.currentTile = this.tile;
-        console.log(this.tile.x + " : " + this.tile.y);
     }
 
     setAction(action) {
