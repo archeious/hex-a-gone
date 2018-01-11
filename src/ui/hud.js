@@ -30,6 +30,8 @@ export default class HUD extends Phaser.Group {
         this.drawHUDicon(x_pos, y_pos_bottom, 'Ice');
         this.drawHUDicon(x_pos+80, y_pos_bottom, 'Wood');
         this.drawHUDicon(x_pos+160, y_pos_bottom, 'Iron');
+
+        // draws the Text components of the HUD
         var style = { font: "bold 20px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "middle" };
         this.scoreTextFire = this.game.add.text(40,y_text_top_pos, '0', style);
         this.scoreTextLife = this.game.add.text(120,y_text_top_pos, '0', style);

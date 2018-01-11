@@ -8,6 +8,9 @@ require('../../assets/images/tileIce.png');
 require('../../assets/images/tileWood.png');
 require('../../assets/images/tileIron.png');
 require('../../assets/images/actionSword.png');
+require('../../assets/images/actionHands.png');
+require('../../assets/images/actionShovel.png');
+require('../../assets/images/actionWand.png');
 
 export default class FreePlayState extends Phaser.State {
 
@@ -44,6 +47,9 @@ export default class FreePlayState extends Phaser.State {
         this.game.load.image('tileIron', '/assets/tileIron.png');
 
         this.game.load.image('actionSword', '/assets/actionSword.png');
+        this.game.load.image('actionHands', '/assets/actionHands.png');
+        this.game.load.image('actionShovel', '/assets/actionShovel.png');
+        this.game.load.image('actionWand', '/assets/actionWand.png');
     }
 
     setTileElement(tile, element) {
@@ -370,31 +376,31 @@ export default class FreePlayState extends Phaser.State {
         // change color of old state back to the default
         switch (this.action) {
             case 'hand':
-                this.handBtn.addColor('#ff0044',0);
+                //this.handBtn.addColor('#ff0044',0);
                 break;
             case 'shovel':
-                this.shovelBtn.addColor('#ff0044',0);
+                //this.shovelBtn.addColor('#ff0044',0);
                 break;
             case 'sword':
-                this.swordBtn.addColor('#ff0044',0);
+                //this.swordBtn.addColor('#ff0044',0);
                 break;
             case 'wand':
-                this.wandBtn.addColor('#ff0044',0);
+                //this.wandBtn.addColor('#ff0044',0);
                 break;
         }
 
         switch (action) {
             case 'hand':
-                this.handBtn.addColor('#ffff44',0);
+                //this.handBtn.addColor('#ffff44',0);
                 break;
             case 'shovel':
-                this.shovelBtn.addColor('#ffff44',0);
+                //this.shovelBtn.addColor('#ffff44',0);
                 break;
             case 'sword':
-                this.swordBtn.addColor('#ffff44',0);
+                //this.swordBtn.addColor('#ffff44',0);
                 break;
             case 'wand':
-                this.wandBtn.addColor('#ffff44',0);
+                //this.wandBtn.addColor('#ffff44',0);
                 break;
         }
 
@@ -408,19 +414,19 @@ export default class FreePlayState extends Phaser.State {
     }
 
     create () {
-        this.handBtn = this.game.add.text(675, 150, "Hands", { font: "35px Arial", fill: "#ff0044", align: "center" });
+        this.handBtn= this.game.add.sprite(725, 150, 'actionHands');
         this.handBtn.events.onInputDown.add(this.actionDown, {state:this, newAction:'hand'});
         this.handBtn.inputEnabled = true;
 
-        this.shovelBtn = this.game.add.text(675, 200, "Shovel", { font: "35px Arial", fill: "#ff0044", align: "center" });
+        this.shovelBtn = this.game.add.sprite(725, 210, 'actionShovel');
         this.shovelBtn.events.onInputDown.add(this.actionDown, {state:this, newAction:'shovel'});
         this.shovelBtn.inputEnabled = true;
 
-        this.swordBtn = this.game.add.text(675, 250, "Sword", { font: "35px Arial", fill: "#ff0044", align: "center" });
+        this.swordBtn = this.game.add.sprite(725, 270, 'actionSword');
         this.swordBtn.events.onInputDown.add(this.actionDown, {state:this, newAction:'sword'});
         this.swordBtn.inputEnabled = true;
 
-        this.wandBtn = this.game.add.text(675, 300, "Wand", { font: "35px Arial", fill: "#ff0044", align: "center" });
+        this.wandBtn = this.game.add.sprite(725, 330, 'actionWand');
         this.wandBtn.events.onInputDown.add(this.actionDown, {state:this, newAction:'wand'});
         this.wandBtn.inputEnabled = true;
 
