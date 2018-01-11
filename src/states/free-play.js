@@ -118,16 +118,15 @@ export default class FreePlayState extends Phaser.State {
         let tiles = this.actionTiles;
         if (tiles.length != 4) { return false; }
 
+        let element = tiles[0].element;
         // all tiles must be the same element
-        if (tiles[0].element != tiles[1].element  ||
-            tiles[0].element != tiles[2].element  ||
-            tiles[0].element != tiles[3].element)  {
+        if (element != tiles[1].element  ||
+            element != tiles[2].element  ||
+            element != tiles[3].element)  {
 
             console.log("cannot shovel dissimilar elements");
             return false;
         }
-        let element = tiles[0].element;
-
 
         if (this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_UPRIGHT &&
             this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_RIGHT &&
