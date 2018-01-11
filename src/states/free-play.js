@@ -358,15 +358,16 @@ export default class FreePlayState extends Phaser.State {
 
         tile.x = newToX;
         tile.y = newToY;
+        this.grid[newToY][newToX] = tile;
 
-        let moveTile = this.state.game.add.tween(tile.sprite);
+        let tileTween = this.state.game.add.tween(tile.sprite);
 
-        moveTile.to({x: newToSX, y: newToSY}, 200);
-        moveTile.onComplete.add(function() {
+        tileTween.to({x: newToSX, y: newToSY}, 200);
+        tileTween.onComplete.add(function() {
             tile.isMoving = false;
         });
 
-        moveTile.start();
+        tileTween.start();
     }
 
     swordUp (tile) {
@@ -416,6 +417,11 @@ export default class FreePlayState extends Phaser.State {
                 && (right   = this.getNeighborNoWrap(curTile, this.NEIGHBOR_RIGHT))
                 && (downright = this.getNeighborNoWrap(curTile, this.NEIGHBOR_DOWNRIGHT))
                 && (downleft  = this.getNeighborNoWrap(curTile, this.NEIGHBOR_DOWNLEFT))) {
+                let neighbors = [left, upleft, upright, right, downright, downleft];
+                if (neighbors.filter(i => i.isMoving).length) {
+                    console.log('clicked too fast');
+                    return false;
+                }
                 console.log("Wand tile has a full set of neighbors");
                 let leftsave = Object.assign({}, left);
                 let leftsaveSpritePos = left.sprite.position;
