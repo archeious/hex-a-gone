@@ -213,6 +213,7 @@ export default class FreePlayState extends Phaser.State {
             this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_RIGHT &&
             this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_DOWNRIGHT) {
             console.log("adding a " + element + " to resources." );
+            this.hud.restartTimer(60000);
             if (typeof this.resources[element] == 'undefined') {
                 console.log("new element");
                 this.resources[element] = 1;
