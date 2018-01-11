@@ -175,6 +175,14 @@ export default class FreePlayState extends Phaser.State {
                     loc.x += x_shift;
                     loc.y = loc.y % this.height;
                 }
+                if (loc.x < 0) {
+                    loc.y -= loc.x * 2;
+                    loc.x = 0;
+                }
+                if (loc.x >= this.width - odd) {
+                    loc.y -= (this.width - odd - loc.x) * 2;
+                    loc.x = this.width - odd;
+                }
             }
         }
 
