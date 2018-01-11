@@ -23,12 +23,12 @@ export default class FreePlayState extends Phaser.State {
 
         this.resources = {};
 
-        this.NEIGHBOR_LEFT = 1;
-        this.NEIGHBOR_RIGHT = 2;
-        this.NEIGHBOR_UPLEFT = 4;
-        this.NEIGHBOR_UPRIGHT = 8;
-        this.NEIGHBOR_DOWNLEFT = 16;
-        this.NEIGHBOR_DOWNRIGHT = 32;
+        this.NEIGHBOR_LEFT = 'left';
+        this.NEIGHBOR_RIGHT = 'right';
+        this.NEIGHBOR_UPLEFT = 'upleft';
+        this.NEIGHBOR_UPRIGHT = 'upright';
+        this.NEIGHBOR_DOWNLEFT = 'downleft';
+        this.NEIGHBOR_DOWNRIGHT = 'downright';
         this.hud = new HUD(this.game);
 
 
