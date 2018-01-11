@@ -135,31 +135,9 @@ export default class FreePlayState extends Phaser.State {
         let element = tiles[0].element;
 
 
-        if (
-            (this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_UPRIGHT &&
+        if (this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_UPRIGHT &&
             this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_DOWNRIGHT) ||
-
-            (this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_UPRIGHT &&
-            this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_DOWNRIGHT) ||
-
-            (this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_UPRIGHT &&
-            this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_DOWNRIGHT) ||
-
-            (this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_UPRIGHT &&
-            this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_DOWNRIGHT) ||
-
-            (this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_UPRIGHT &&
-            this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_DOWNRIGHT) ||
-
-            (this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_UPRIGHT &&
-            this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_RIGHT &&
-            this.isNeighbor(tiles[0],tiles[1]) == this.NEIGHBOR_DOWNRIGHT)
-        ) {
+            this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_DOWNRIGHT) {
             console.log("adding a " + element + " to resources." );
             if (typeof this.resources[element] == 'undefined') {
                 console.log("new element");
