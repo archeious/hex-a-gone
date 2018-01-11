@@ -154,8 +154,10 @@ export default class FreePlayState extends Phaser.State {
         switch (this.state.action) {
             case 'hand':
             case 'shovel':
-                this.tile.sprite.scale.setTo(0.9, 0.9);
-                this.state.actionTiles.push(this.tile);
+                if (!this.state.actionTiles.includes(this.tile)) {
+                    this.tile.sprite.scale.setTo(0.9, 0.9);
+                    this.state.actionTiles.push(this.tile);
+                }
             break;
 
         }
