@@ -21,9 +21,6 @@ export default class HUD extends Phaser.Group {
         var y_text_bottom_pos = this.game.height - 35;
         this.timer = this.game.time.create(false);
 
-        this.timer.loop(this.startTime, this.failedGoal, this);
-        this.timer.start();
-
         // draws the HUD resource counts
         this.drawHUDicon(x_pos, y_pos_top, 'Fire');
         this.drawHUDicon(x_pos+80, y_pos_top, 'Life');
@@ -44,18 +41,27 @@ export default class HUD extends Phaser.Group {
         this.scoreTextIron = this.game.add.text(200,y_text_bottom_pos, '0', style);
         this.timerText = this.game.add.text(360,y_text_top_pos, 'Time: ' + this.timer.duration.toFixed(0) / 1000, style);
         this.goalText = this.game.add.text(360,y_text_bottom_pos, this.goalText, style);
+
+        // start the time for the first time
+        this.restartTimer();
     };
 
     failedGoal () {
-        console.log('you failed to reach your goal!');
-        this.restartTimer(this.startTime);
+        console.log('You failed to reach your goal!');
+        this.restartTimer();
     }
 
     restartTimer (seconds) {
-        this.startTime = seconds || startTime;
-        this.timer.destroy();
-        this.timer.loop(this.startTime, this.failedGoal, this);
-        this.timer.start();
+        this.startTime = seconds || this.startTime;
+        if (this.startTime >= 0) {
+            this.timer.destroy();
+            this.timer.loop(this.startTime, this.failedGoal, this);
+            this.timer.start();
+            this.timerText.revive();
+        } else {
+            this.timerText.kill();
+            this.timer.destroy();
+        }
     }
 
     updateHUD (resources) {

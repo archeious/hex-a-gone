@@ -503,11 +503,7 @@ export default class FreePlayState extends Phaser.State {
 
         this.generateGrid();
 
-        if (this.level) {
-            this.hud.displayHUD(this.level.description, this.timeLimit);
-        } else {
-            this.hud.displayHUD();
-        }
+        this.hud.displayHUD(this.level ? this.level.description : 'Free Play', this.timeLimit);
     }
 
     update() {
