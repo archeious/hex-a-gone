@@ -1,4 +1,6 @@
 import HUD from '../ui/hud.js';
+import AllLevels from '../mechanics/all-levels';
+import Level from '../mechanics/level';
 
 require('../../assets/images/tileFire.png');
 require('../../assets/images/tileDirt.png');
@@ -14,7 +16,7 @@ require('../../assets/images/actionWand.png');
 
 export default class FreePlayState extends Phaser.State {
 
-    init () {
+    init (level) {
         this.width = 10;
         this.height = 10;
         this.gridOffsetX = 52;
@@ -33,8 +35,25 @@ export default class FreePlayState extends Phaser.State {
         this.NEIGHBOR_DOWNLEFT = 'downleft';
         this.NEIGHBOR_DOWNRIGHT = 'downright';
         this.hud = new HUD(this.game);
+        this.allLevels = new AllLevels();
 
+        // TESTING default to collect dirt
+        if (!level) {
+            let LevelClass = this.allLevels.hash['collectdirt'];
+            level = new LevelClass();
+        }
 
+        if (typeof level === 'undefined' || level instanceof Level) {
+            this.level = level;
+        } else {
+            throw "Invalid level supplied.";
+        }
+
+        this.timeLimit = -1;
+        if (this.level) {
+            let timeLimitCondition = (_.filter(this.level.conditions, cond => { return cond.type == 'timelimit'; }) || [])[0];
+            this.timeLimit = timeLimitCondition.time;
+        }
     }
 
     preload () {
@@ -221,7 +240,7 @@ export default class FreePlayState extends Phaser.State {
             this.isNeighbor(tiles[0],tiles[2]) == this.NEIGHBOR_RIGHT &&
             this.isNeighbor(tiles[0],tiles[3]) == this.NEIGHBOR_DOWNRIGHT) {
             console.log("adding a " + element + " to resources." );
-            this.hud.restartTimer(60000);
+            this.hud.restartTimer(this.timeLimit);
             if (typeof this.resources[element] == 'undefined') {
                 console.log("new element");
                 this.resources[element] = 1;
@@ -482,8 +501,12 @@ export default class FreePlayState extends Phaser.State {
         this.setAction("hand");
 
         this.generateGrid();
-        this.hud.displayHUD();
 
+        if (this.level) {
+            this.hud.displayHUD(this.level.description, this.timeLimit);
+        } else {
+            this.hud.displayHUD();
+        }
     }
 
     update() {

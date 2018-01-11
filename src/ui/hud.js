@@ -9,8 +9,10 @@ export default class HUD extends Phaser.Group {
         sprite.scale.setTo(.5);
     };
 
-    displayHUD () {
+    displayHUD (goalText = 'Free Play', startTime = 60000) {
         this.group = this.game.add.group();
+        this.startTime = startTime;
+        this.goalText = goalText;
 
         var x_pos = 5;
         var y_pos_top = this.game.height - 80;
@@ -19,7 +21,7 @@ export default class HUD extends Phaser.Group {
         var y_text_bottom_pos = this.game.height - 35;
         this.timer = this.game.time.create(false);
 
-        this.timer.loop(60000, this.failedGoal, this);
+        this.timer.loop(this.startTime, this.failedGoal, this);
         this.timer.start();
 
         // draws the HUD resource counts
@@ -41,17 +43,18 @@ export default class HUD extends Phaser.Group {
         this.scoreTextWood = this.game.add.text(120,y_text_bottom_pos, '0', style);
         this.scoreTextIron = this.game.add.text(200,y_text_bottom_pos, '0', style);
         this.timerText = this.game.add.text(360,y_text_top_pos, 'Time: ' + this.timer.duration.toFixed(0) / 1000, style);
-        this.goalText = this.game.add.text(360,y_text_bottom_pos, 'Goal: Collect 1 Iron', style);
+        this.goalText = this.game.add.text(360,y_text_bottom_pos, this.goalText, style);
     };
 
     failedGoal () {
         console.log('you failed to reach your goal!');
-        this.restartTimer(60000);
+        this.restartTimer(this.startTime);
     }
 
     restartTimer (seconds) {
+        this.startTime = seconds || startTime;
         this.timer.destroy();
-        this.timer.loop(seconds || 60000, this.failedGoal, this);
+        this.timer.loop(this.startTime, this.failedGoal, this);
         this.timer.start();
     }
 
