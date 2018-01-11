@@ -1,6 +1,7 @@
-import HUD from '../ui/hud.js';
+import AllResources from '../mechanics/all-resources';
 import AllLevels from '../mechanics/all-levels';
 import Level from '../mechanics/level';
+import HUD from '../ui/hud.js';
 
 require('../../assets/images/tileFire.png');
 require('../../assets/images/tileDirt.png');
@@ -23,7 +24,8 @@ export default class FreePlayState extends Phaser.State {
         this.gridOffsetY = 50;
         this.action = "";
 
-        this.availTiles = ['Dirt', 'Iron', 'Fire', 'Ice', 'Life', 'Wood', 'Magic'];
+        this.availResources = new AllResources();
+        this.availTiles = Object.keys(this.availResources.hash);
         this.actionTiles = Array();
 
         this.resources = {};
