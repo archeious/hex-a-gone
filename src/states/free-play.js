@@ -259,7 +259,7 @@ export default class FreePlayState extends Phaser.State {
                 break;
         }
 
-        this.state.emptyActionTiles();
+        this.emptyActionTiles();
         this.action = action;
     }
 
