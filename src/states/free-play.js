@@ -164,8 +164,8 @@ export default class FreePlayState extends Phaser.State {
                 loc.x = loc.x % (this.width - odd);
             } else {
                 let x_shift = Math.floor( this.height / 2 );
-                if (direction == NEIGHBOR_DOWNRIGHT ||
-                    direction == NEIGHBOR_UPRIGHT) {
+                if (direction == this.NEIGHBOR_DOWNRIGHT ||
+                    direction == this.NEIGHBOR_UPRIGHT) {
                     x_shift = -x_shift;
                 }
                 if (loc.y < 0 || loc.y >= this.height) {
