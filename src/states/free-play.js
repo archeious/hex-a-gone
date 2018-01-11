@@ -176,6 +176,7 @@ export default class FreePlayState extends Phaser.State {
                     this.tile.sprite.scale.setTo(0.9, 0.9);
                     this.state.actionTiles.push(this.tile);
                 }
+            break;
             case 'sword':
                 this.tile.sprite.scale.setTo(0.9, 0.9);
                 this.state.actionTiles.push(this.tile);
